@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 1s;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.code-wrapper {
+  flex: 1;
+  height: 50%;
+}
+
+.code-wrapper #code {
+  overflow: auto;
+  height: 100%;
+  /* 设置了这个和在code-wrapper中设置了display: flex一样，会使得#code出现滚动条 */
+}
+
+.preview-wrapper {
+  flex: 1;
+  height: 50%;
+}
+
+.actions {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.actions>button {
+  padding: 5px 8px;
+  margin: 8px 40px;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  font-family: '方正舒体';
+  font-size: 16px;
+  background: #ddd;
+}
+
+.actions>button.active {
+  transform: scale(1.1);
+  color: brown;
+}
