@@ -1,19 +1,46 @@
 ! function () {
+  let duration = 50;
+  let codeContainer = document.querySelector('#code')
+  let codeStyle = document.querySelector('#codeStyle')
+  let id = null
+  $('.actions').on('click', 'button', (e) => {
+    $button = $(e.currentTarget)
+    let speed = $button.attr('data-speed')
+    $button.addClass('active').siblings().removeClass('active')
+    switch (speed) {
+      case 'slow':
+        duration = 100
+        break;
+      case 'normal':
+        duration = 50
+        break;
+      case 'fast':
+        duration = 10
+        break;
+      case 'showAll':
+        clearTimeout(id)
+        codeContainer.innerHTML = Prism.highlight(code, Prism.languages.css)
+        codeStyle.innerHTML = code
+        codeContainer.scrollTop = codeContainer.scrollHeight
+        break;
+    }
+  })
+
   function writeCode(prefix, code, fn) {
-    let codeContainer = document.querySelector('#code')
-    let codeStyle = document.querySelector('#codeStyle')
     let n = 0
-    let id = setInterval(() => {
+    id = setTimeout(function writeOnce() {
       n += 1
       codeContainer.innerHTML = Prism.highlight(code.substring(0, n), Prism.languages.css);
       codeStyle.innerHTML = code.substring(0, n)
       codeContainer.scrollTop = codeContainer.scrollHeight
-      if (n >= code.length) {
-        clearInterval(id)
+      if (n < code.length) {
+        id = setTimeout(writeOnce, duration)
+      } else {
         fn && fn.call()
       }
-    }, 50)
+    }, duration)
   }
+
   let code = `
   /*
    * 首先，需要准备皮卡丘的皮 
@@ -178,6 +205,5 @@
    * 好了，这只皮卡丘送给你
    */
   `
-
   writeCode('', code)
 }.call()
